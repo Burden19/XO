@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">X-O Tournament</string>
+    <string name="loading">Loading…</string>
+
+    <!-- Language Selection -->
+    <string name="select_language">Select Language</string>
+
+    <!-- Main Activity -->
+    <string name="select_symbol">Select Your Symbol</string>
+    <string name="select_game_count">Number of Games</string>
+    <string name="play">Play</string>
+    <string name="game_principle">Game Rules</string>
+    <string name="statistics">Statistics</string>
+    <string name="load_last_tournament">Load Last Tournament</string>
+    <string name="no_saved_tournament">No saved tournament found</string>
+
+    <!-- Game Activity -->
+    <string name="game_number">Game %1$d / %2$d</string>
+    <string name="score_x">Player X: %d</string>
+    <string name="score_o">Player O: %d</string>
+    <string name="draws">Draws: %d</string>
+    <string name="player_starts">Player %s starts!</string>
+    <string name="coin_flip">Coin Flip</string>
+
+    <!-- Tournament Results -->
+    <string name="tournament_results">Tournament Results</string>
+    <string name="winner">Winner: %s</string>
+    <string name="draw">Draw</string>
+    <string name="total_games">Total Games: %d</string>
+    <string name="save_tournament">Sauvegarder le tournoi</string>
+    <string name="back_home">Revenir à l’accueil</string>
+    <string name="tournament_saved">Tournoi sauvegardé avec succès!</string>
+    <string name="trophy">Trophy</string>
+
+    <!-- Statistics -->
+    <string name="win_streak">Win Streak: %d</string>
+    <string name="lose_streak">Lose Streak: %d</string>
+    <string name="win_percentage">Win Rate: %.1f%%</string>
+    <string name="total_tournaments">Total Tournaments: %d</string>
+    <string name="tournament_history">Tournament History</string>
+
+    <!-- Game Principle -->
+    <string name="game_principle_title">Game Principle</string>
+    <string name="game_principle_text">
+        X-O (Tic-Tac-Toe) is played on a 3×3 grid between two players.\n\n
+
+        <b>How to Play:</b>\n
+        • Players take turns placing their symbol (X or O) in empty cells\n
+        • The first player to align three symbols in a row (horizontally, vertically, or diagonally) wins\n
+        • If all cells are filled without a winner, the game is a draw\n\n
+
+        <b>Tournament Mode:</b>\n
+        • Choose 3, 5, 7, 10, 15, or 20 games per tournament\n
+        • A coin flip determines who starts each game\n
+        • Scores accumulate automatically\n
+        • At the end, the player with the most wins is declared tournament champion\n\n
+
+        <b>Statistics:</b>\n
+        • Track your win/lose streaks\n
+        • View your win percentage\n
+        • Review complete tournament history\n\n
+
+        Good luck and have fun! 🎮
+    </string>
+
+    <!-- Array -->
+    <string-array name="game_count_options">
+        <item>3 Games</item>
+        <item>5 Games</item>
+        <item>7 Games</item>
+        <item>10 Games</item>
+        <item>15 Games</item>
+        <item>20 Games</item>
+    </string-array>
+
+    <string name="ok">OK</string>
+</resources>

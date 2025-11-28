@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:padding="16dp"
+    tools:context=".GameActivity">
+
+    <TextView
+        android:id="@+id/tv_player1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Player X: 0"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/tv_player2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="Player O: 0"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/tv_game_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_player1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_game_number"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
+
+    <GridLayout
+        android:id="@+id/grid_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/primary_dark"
+        android:columnCount="3"
+        android:rowCount="3">
+
+        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_00" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_01" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_02" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_10" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_11" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_12" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_20" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_21" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_22" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/btn_next_game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Next Game"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/btn_next_game"
+        android:text="Reset" />
+
+</RelativeLayout>
