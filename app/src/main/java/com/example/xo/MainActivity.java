@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     private RadioGroup radioGroupSymbol;
     private Spinner spinnerGameCount;
-    private Button btnPlay, btnPrinciple, btnStatistics, btnLoadLastTournament;
     private SoundManager soundManager;
     private TournamentDatabase database;
     private FileManager fileManager;
@@ -47,16 +46,21 @@ public class MainActivity extends AppCompatActivity {
 
         initializeViews();
         initializeManagers();
-        setupListeners();
     }
 
     private void initializeViews() {
         radioGroupSymbol = findViewById(R.id.radio_group_symbol);
         spinnerGameCount = findViewById(R.id.spinner_game_count);
-        btnPlay = findViewById(R.id.btn_play);
-        btnPrinciple = findViewById(R.id.btn_principle);
-        btnStatistics = findViewById(R.id.btn_statistics);
-        btnLoadLastTournament = findViewById(R.id.btn_load_last_tournament);
+
+        Button btnPlay = findViewById(R.id.btn_play);
+        Button btnPrinciple = findViewById(R.id.btn_principle);
+        Button btnStatistics = findViewById(R.id.btn_statistics);
+        Button btnLoadLastTournament = findViewById(R.id.btn_load_last_tournament);
+
+        btnPlay.setOnClickListener(v -> showCoinFlipDialog());
+        btnPrinciple.setOnClickListener(v -> showPrinciple());
+        btnStatistics.setOnClickListener(v -> showStatistics());
+        btnLoadLastTournament.setOnClickListener(v -> loadLastTournament());
     }
 
     private void initializeManagers() {
@@ -65,15 +69,8 @@ public class MainActivity extends AppCompatActivity {
         fileManager = new FileManager(this);
     }
 
-    private void setupListeners() {
-        btnPlay.setOnClickListener(v -> showCoinFlipDialog());
-        btnPrinciple.setOnClickListener(v -> showPrinciple());
-        btnStatistics.setOnClickListener(v -> showStatistics());
-        btnLoadLastTournament.setOnClickListener(v -> loadLastTournament());
-    }
-
     private void showCoinFlipDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.TransparentDialog);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_coin_flip, null);
         builder.setView(dialogView);
         builder.setCancelable(false);
@@ -183,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.TransparentDialog);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_tournament_summary, null);
         builder.setView(dialogView);
 

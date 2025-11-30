@@ -1,87 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
-    android:padding="16dp"
+    android:background="@drawable/modern_gradient_background"
     tools:context=".GameActivity">
 
-    <TextView
-        android:id="@+id/tv_player1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="Player X: 0"
-        android:textColor="@android:color/white" />
+    <!-- Top bar controls -->
+    <ImageButton
+        android:id="@+id/btn_close"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/modern_button_background"
+        android:padding="12dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/btn_reset"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/modern_button_background"
+        android:padding="12dp"
+        android:src="@drawable/ic_reset"
+        app:layout_constraintStart_toEndOf="@id/btn_close"
+        app:layout_constraintTop_toTopOf="@id/btn_close" />
+
+    <ImageButton
+        android:id="@+id/btn_pause"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/modern_button_background"
+        android:padding="12dp"
+        android:src="@drawable/ic_pause"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Score and Game Info -->
     <TextView
-        android:id="@+id/tv_player2"
+        android:id="@+id/tv_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:text="Player O: 0"
-        android:textColor="@android:color/white" />
+        android:layout_marginTop="24dp"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_reset"
+        tools:text="1 – 1" />
 
     <TextView
         android:id="@+id/tv_game_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_player1"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:textColor="@android:color/white"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_score"
+        tools:text="Game 2 of 3" />
 
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_game_number"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@android:color/white" />
+        app:layout_constraintBottom_toTopOf="@id/grid_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Player X's Turn" />
 
+    <!-- Game Grid -->
     <GridLayout
         android:id="@+id/grid_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@color/primary_dark"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:columnCount="3"
-        android:rowCount="3">
+        android:rowCount="3"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_00" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
-        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_01" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
-        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_02" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
-        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_10" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
-        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_11" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
-        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_12" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
-        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_20" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
-        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_21" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
-        <ImageButton style="@style/Widget.AppCompat.Button.Borderless" android:id="@+id/btn_22" android:layout_width="0dp" android:layout_height="100dp" android:layout_columnWeight="1" android:background="@drawable/cell_background" android:layout_margin="2dp" android:scaleType="fitCenter" />
+        <ImageButton android:id="@+id/btn_00" android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:background="@android:color/transparent" android:scaleType="fitCenter" android:padding="20dp"/>
+        <ImageButton android:id="@+id/btn_01" android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:background="@android:color/transparent" android:scaleType="fitCenter" android:padding="20dp"/>
+        <ImageButton android:id="@+id/btn_02" android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:background="@android:color/transparent" android:scaleType="fitCenter" android:padding="20dp"/>
+        <ImageButton android:id="@+id/btn_10" android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:background="@android:color/transparent" android:scaleType="fitCenter" android:padding="20dp"/>
+        <ImageButton android:id="@+id/btn_11" android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:background="@android:color/transparent" android:scaleType="fitCenter" android:padding="20dp"/>
+        <ImageButton android:id="@+id/btn_12" android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:background="@android:color/transparent" android:scaleType="fitCenter" android:padding="20dp"/>
+        <ImageButton android:id="@+id/btn_20" android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:background="@android:color/transparent" android:scaleType="fitCenter" android:padding="20dp"/>
+        <ImageButton android:id="@+id/btn_21" android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:background="@android:color/transparent" android:scaleType="fitCenter" android:padding="20dp"/>
+        <ImageButton android:id="@+id/btn_22" android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:background="@android:color/transparent" android:scaleType="fitCenter" android:padding="20dp"/>
 
     </GridLayout>
 
-    <Button
-        android:id="@+id/btn_next_game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Next Game"
-        android:visibility="gone" />
+    <!-- Grid Lines -->
+    <View
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/grid_layout"
+        app:layout_constraintEnd_toEndOf="@+id/grid_layout"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="@+id/grid_layout"
+        app:layout_constraintTop_toTopOf="@+id/grid_layout" />
 
-    <Button
-        android:id="@+id/btn_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/btn_next_game"
-        android:text="Reset" />
+    <View
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/grid_layout"
+        app:layout_constraintEnd_toEndOf="@+id/grid_layout"
+        app:layout_constraintHorizontal_bias="0.667"
+        app:layout_constraintStart_toStartOf="@+id/grid_layout"
+        app:layout_constraintTop_toTopOf="@+id/grid_layout" />
 
-</RelativeLayout>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/grid_layout"
+        app:layout_constraintEnd_toEndOf="@+id/grid_layout"
+        app:layout_constraintStart_toStartOf="@+id/grid_layout"
+        app:layout_constraintTop_toTopOf="@+id/grid_layout"
+        app:layout_constraintVertical_bias="0.333" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/grid_layout"
+        app:layout_constraintEnd_toEndOf="@+id/grid_layout"
+        app:layout_constraintStart_toStartOf="@+id/grid_layout"
+        app:layout_constraintTop_toTopOf="@+id/grid_layout"
+        app:layout_constraintVertical_bias="0.667" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

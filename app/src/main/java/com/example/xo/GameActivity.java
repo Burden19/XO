@@ -2,8 +2,10 @@ package com.example.xo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,16 +24,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int roundCount;
     private int gameCount;
     private int totalGames;
+    private int winsNeeded;
 
     private int player1Points;
     private int player2Points;
     private int drawCount;
 
-    private TextView textViewPlayer1;
-    private TextView textViewPlayer2;
-    private TextView textViewStatus;
-    private TextView textViewGameNumber;
-    private Button btnNextGame;
+    private TextView tvScore, tvGameNumber, tvStatus;
 
     private String startingPlayer;
     private String playerSymbol;
@@ -50,12 +49,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         fileManager = new FileManager(this);
         database = new TournamentDatabase(this);
 
-        textViewPlayer1 = findViewById(R.id.tv_player1);
-        textViewPlayer2 = findViewById(R.id.tv_player2);
-        textViewStatus = findViewById(R.id.tv_status);
-        textViewGameNumber = findViewById(R.id.tv_game_number);
-        btnNextGame = findViewById(R.id.btn_next_game);
+        // Initialize top-bar controls
+        ImageButton btnClose = findViewById(R.id.btn_close);
+        ImageButton btnReset = findViewById(R.id.btn_reset);
+        ImageButton btnPause = findViewById(R.id.btn_pause);
 
+        // Initialize TextViews
+        tvScore = findViewById(R.id.tv_score);
+        tvGameNumber = findViewById(R.id.tv_game_number);
+        tvStatus = findViewById(R.id.tv_status);
+
+        btnClose.setOnClickListener(v -> finish());
+        btnReset.setOnClickListener(v -> resetGame());
+        btnPause.setOnClickListener(v -> {
+            // TODO: Implement pause functionality
+        });
+
+        // Initialize game board
+        GridLayout gridLayout = findViewById(R.id.grid_layout);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 String buttonID = "btn_" + i + j;
@@ -65,36 +76,34 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        Button buttonReset = findViewById(R.id.btn_reset);
-        buttonReset.setOnClickListener(v -> resetGame());
-        btnNextGame.setOnClickListener(v -> nextGame());
-
+        // Get data from MainActivity
         Intent intent = getIntent();
         totalGames = intent.getIntExtra("GAME_COUNT", 5);
         startingPlayer = intent.getStringExtra("STARTING_PLAYER");
         playerSymbol = intent.getStringExtra("PLAYER_SYMBOL");
+        winsNeeded = (totalGames / 2) + 1;
 
+        // Set initial turn based on player's choice and coin flip
         if (playerSymbol.equals(startingPlayer)) {
             player1Turn = true;
         } else {
             player1Turn = false;
         }
 
-        updateStatus();
-        updateGameNumber();
+        updateUI();
     }
 
     @Override
     public void onClick(View v) {
         if (((ImageButton) v).getDrawable() != null) {
-            return;
+            return; // Cell already taken
         }
 
         if (player1Turn) {
-            ((ImageButton) v).setImageResource(R.drawable.ic_x);
+            ((ImageButton) v).setImageResource(R.drawable.ic_modern_x);
             v.setTag("X");
         } else {
-            ((ImageButton) v).setImageResource(R.drawable.ic_o);
+            ((ImageButton) v).setImageResource(R.drawable.ic_modern_o);
             v.setTag("O");
         }
 
@@ -117,46 +126,35 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean checkForWin() {
         String[][] field = new String[3][3];
-
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (buttons[i][j].getTag() != null) {
-                    field[i][j] = buttons[i][j].getTag().toString();
-                } else {
-                    field[i][j] = "";
-                }
+                field[i][j] = buttons[i][j].getTag() != null ? buttons[i][j].getTag().toString() : "";
             }
         }
 
+        // Check rows
         for (int i = 0; i < 3; i++) {
-            if (field[i][0].equals(field[i][1]) && field[i][0].equals(field[i][2]) && !field[i][0].equals("")) {
-                winningLine[0] = buttons[i][0];
-                winningLine[1] = buttons[i][1];
-                winningLine[2] = buttons[i][2];
+            if (field[i][0].equals(field[i][1]) && field[i][0].equals(field[i][2]) && !field[i][0].isEmpty()) {
+                winningLine = new ImageButton[]{buttons[i][0], buttons[i][1], buttons[i][2]};
                 return true;
             }
         }
 
+        // Check columns
         for (int i = 0; i < 3; i++) {
-            if (field[0][i].equals(field[1][i]) && field[0][i].equals(field[2][i]) && !field[0][i].equals("")) {
-                winningLine[0] = buttons[0][i];
-                winningLine[1] = buttons[1][i];
-                winningLine[2] = buttons[2][i];
+            if (field[0][i].equals(field[1][i]) && field[0][i].equals(field[2][i]) && !field[0][i].isEmpty()) {
+                winningLine = new ImageButton[]{buttons[0][i], buttons[1][i], buttons[2][i]};
                 return true;
             }
         }
 
-        if (field[0][0].equals(field[1][1]) && field[0][0].equals(field[2][2]) && !field[0][0].equals("")) {
-            winningLine[0] = buttons[0][0];
-            winningLine[1] = buttons[1][1];
-            winningLine[2] = buttons[2][2];
+        // Check diagonals
+        if (field[0][0].equals(field[1][1]) && field[0][0].equals(field[2][2]) && !field[0][0].isEmpty()) {
+            winningLine = new ImageButton[]{buttons[0][0], buttons[1][1], buttons[2][2]};
             return true;
         }
-
-        if (field[0][2].equals(field[1][1]) && field[0][2].equals(field[2][0]) && !field[0][2].equals("")) {
-            winningLine[0] = buttons[0][2];
-            winningLine[1] = buttons[1][1];
-            winningLine[2] = buttons[2][0];
+        if (field[0][2].equals(field[1][1]) && field[0][2].equals(field[2][0]) && !field[0][2].isEmpty()) {
+            winningLine = new ImageButton[]{buttons[0][2], buttons[1][1], buttons[2][0]};
             return true;
         }
 
@@ -190,26 +188,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         endRound();
     }
 
-    private void updatePointsText() {
-        textViewPlayer1.setText("Player X: " + player1Points);
-        textViewPlayer2.setText("Player O: " + player2Points);
-    }
-
     private void endRound() {
         gameCount++;
-        updatePointsText();
         disableBoard();
-        if (gameCount < totalGames) {
-            btnNextGame.setVisibility(View.VISIBLE);
-        } else {
-            showTournamentResult();
-        }
-    }
+        updateUI();
 
-    private void nextGame() {
-        resetBoard();
-        btnNextGame.setVisibility(View.GONE);
-        updateGameNumber();
+        new Handler().postDelayed(() -> {
+            if (player1Points == winsNeeded || player2Points == winsNeeded || gameCount == totalGames) {
+                showTournamentResult();
+            } else {
+                resetBoard();
+            }
+        }, 1500); // Delay for showing the result before the next round or summary
     }
 
     private void resetBoard() {
@@ -218,7 +208,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 buttons[i][j].setImageResource(0);
                 buttons[i][j].setTag(null);
                 buttons[i][j].setEnabled(true);
-                buttons[i][j].setBackgroundResource(R.drawable.cell_background);
+                buttons[i][j].setBackgroundResource(R.drawable.modern_cell_background);
             }
         }
         roundCount = 0;
@@ -228,34 +218,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         } else if (lastRoundWinner == RoundResult.PLAYER2) {
             player1Turn = false;
         } else { // On a draw, alternate the starting player
-            if (playerSymbol.equals("X")) {
-                player1Turn = !player1Turn;
-            } else {
-                player1Turn = !player1Turn;
-            }
+            player1Turn = !player1Turn;
         }
-
-        updateStatus();
+        updateUI();
     }
 
     private void disableBoard() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buttons[i][j].setEnabled(false);
+        for (ImageButton[] row : buttons) {
+            for (ImageButton button : row) {
+                button.setEnabled(false);
             }
         }
-    }
-
-    private void updateStatus() {
-        if (player1Turn) {
-            textViewStatus.setText("Player X's turn");
-        } else {
-            textViewStatus.setText("Player O's turn");
-        }
-    }
-
-    private void updateGameNumber() {
-        textViewGameNumber.setText("Game " + (gameCount + 1) + " of " + totalGames);
     }
 
     private void resetGame() {
@@ -263,9 +236,25 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         player2Points = 0;
         drawCount = 0;
         gameCount = 0;
-        updatePointsText();
         resetBoard();
+    }
+
+    private void updateUI() {
+        updateScoreText();
         updateGameNumber();
+        updateStatus();
+    }
+
+    private void updateScoreText() {
+        tvScore.setText(String.format("%d – %d", player1Points, player2Points));
+    }
+
+    private void updateGameNumber() {
+        tvGameNumber.setText(String.format("Game %d of %d", gameCount + 1, totalGames));
+    }
+
+    private void updateStatus() {
+        tvStatus.setText(player1Turn ? "Player X's Turn" : "Player O's Turn");
     }
 
     private void showTournamentResult() {

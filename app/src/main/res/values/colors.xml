@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- New Modern Palette -->
+    <color name="pale_peach">#f8c3a5</color>
+    <color name="soft_orange">#f5ab8c</color>
+    <color name="dusty_rose">#e78f8c</color>
+    <color name="light_mauve">#d17b8f</color>
+    <color name="cool_blue">#8ba2d5</color>
+    <color name="light_periwinkle">#a0b1dc</color>
+
+    <!-- UI Elements -->
+    <color name="grid_line_color">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Original Palette (for reference, can be removed later) -->
     <color name="primary">#667eea</color>
     <color name="primary_dark">#5568d3</color>
     <color name="primary_light">#8899f7</color>

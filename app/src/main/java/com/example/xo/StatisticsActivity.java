@@ -1,6 +1,7 @@
 package com.example.xo;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class StatisticsActivity extends AppCompatActivity {
 
-    private TextView tvWinStreak, tvLoseStreak, tvWinPercentage, tvTotalTournaments;
+    private TextView tvWinStreak, tvLoseStreak;
     private RecyclerView recyclerViewHistory;
     private TournamentDatabase database;
 
@@ -33,28 +34,19 @@ public class StatisticsActivity extends AppCompatActivity {
     private void initializeViews() {
         tvWinStreak = findViewById(R.id.tv_win_streak);
         tvLoseStreak = findViewById(R.id.tv_lose_streak);
-        tvWinPercentage = findViewById(R.id.tv_win_percentage);
-        tvTotalTournaments = findViewById(R.id.tv_total_tournaments);
         recyclerViewHistory = findViewById(R.id.recycler_view_history);
+        ImageButton btnClose = findViewById(R.id.btn_close);
 
         recyclerViewHistory.setLayoutManager(new LinearLayoutManager(this));
+        btnClose.setOnClickListener(v -> finish());
     }
 
     private void loadStatistics() {
         PlayerStats stats = database.getPlayerStats();
         List<Tournament> tournaments = database.getAllTournaments();
 
-        tvWinStreak.setText(getString(R.string.win_streak, stats.getMaxWinStreak()));
-        tvLoseStreak.setText(getString(R.string.lose_streak, stats.getMaxLoseStreak()));
-
-        if (stats.getTotalTournaments() > 0) {
-            double winPercentage = (double) stats.getTournamentsWon() / stats.getTotalTournaments() * 100;
-            tvWinPercentage.setText(getString(R.string.win_percentage, winPercentage));
-        } else {
-            tvWinPercentage.setText(getString(R.string.win_percentage, 0.0));
-        }
-
-        tvTotalTournaments.setText(getString(R.string.total_tournaments, stats.getTotalTournaments()));
+        tvWinStreak.setText(String.valueOf(stats.getMaxWinStreak()));
+        tvLoseStreak.setText(String.valueOf(stats.getMaxLoseStreak()));
 
         TournamentAdapters adapter = new TournamentAdapters(tournaments);
         recyclerViewHistory.setAdapter(adapter);
